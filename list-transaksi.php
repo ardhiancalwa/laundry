@@ -17,7 +17,7 @@ include "navbar.php";
 </head>
 <body>
     <div class="container-fluid mt-5">
-        <div class="card bg-dark">
+        <div class="card bg-light">
             <div class="card-header bg-dark mt-3">
                 <h5 class="text-white text-center">
                     Daftar Sewa
@@ -41,30 +41,33 @@ include "navbar.php";
                 <ul class="list-group">
                     <?php
                     include("connection.php");
+                    $sql = "select transaksi.*,member.*,user.* from transaksi 
+                    inner join member on transaksi.id_member=member.id_member
+                    inner join user on transaksi.id_user=user.id_user
+                    order by id_transaksi desc";
                     if (isset($_GET["search"])) {
                         # jika pd saat load halaman ini
                         # akan mengecek apakah ada data dgn method
                         # GET yg bernama search
                         $search = $_GET["search"];
-                        $sql = "select * from transaksi
+                        $sql = "select transaksi.*,member.*,user.* from transaksi 
+                        inner join member on transaksi.id_member=member.id_member
+                        inner join user on transaksi.id_user=user.id_user
                         where id_transaksi like '%$search%'
-                        or id_member like '%$search%'
-                        or tgl '%$search%'
-                        or batas_waktu '%$search%'
-                        or tgl_bayar '%$search%'
-                        or dibayar '%$search%'
-                        or id_user like '%$search%'
-                        or status like '%$search%'";
-                    } else {
-                        $sql = "select * from transaksi";
-                    }
-                    
-                    $sql = "select transaksi.*,member.*,user.* from transaksi 
-                    inner join member on transaksi.id_member=member.id_member
-                    inner join user on transaksi.id_user=user.id_user
-                    order by id_transaksi desc";
+                        or nama like '%$search%'
+                        or batas_waktu like '%$search%'
+                        or tgl like '%$search%'
+                        or tgl_bayar like '%$search%'
+                        or status like '%$search%'
+                        or dibayar like '%$search%'
+                        order by id_transaksi desc";
+                    } 
 
                     $hasil = mysqli_query($connect, $sql);
+                    if (mysqli_error($connect)) {
+                        var_dump(mysqli_error($connect));
+                        exit(1);
+                    }                    
                     while($transaksi = mysqli_fetch_array($hasil)){
                         ?>
                         <li class="list-group-item bg-dark">
