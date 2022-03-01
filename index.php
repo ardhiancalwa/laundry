@@ -14,7 +14,7 @@ include "navbar.php";
 <body>
     <h1>
         <div>
-            <img class="width 100%" src="background.gif" alt="foto">
+            <img width="100%" src="background.gif" alt="foto">
         </div>
     </h1>
 </body>
